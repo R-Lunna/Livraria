@@ -37,13 +37,31 @@ public class menu {
 			String tittle;
 			ArrayList<livros> carrinho = new ArrayList<livros>();
 			do {
-				System.out.println("Digite o título do livro que deseja comprar: ");
-				tittle = sc.nextLine();
-				i = obj.ChecksLivro(tittle);
-				if (i >= 0) carrinho.add(livros.get(i));
 				
+				ArrayList<Integer> position = encontraLivro(sc, obj);
+				for (int z = 0; z < position.size(); z++) {
+					System.out.println((z + 1) + "- Título: " + livros.get(position.get(z)).getTittle());
+					System.out.println("Descrição: " + livros.get(position.get(z)).getDescrition());
+					System.out.println("Autor: " + livros.get(position.get(z)).getAuthor());
+					System.out.println("ISBN: " + livros.get(position.get(z)).getIsbn());
+					System.out.println("Preço: $" + livros.get(position.get(z)).getPrice() + " reais");
+					System.out.println();
+				}
 				
+				if (position.size() == 1) {
+					System.out.println("Deseja adicionar o livro? s ou n");
+					String adicionar = sc.nextLine();
+					if (adicionar.toUpperCase().contains("s".toUpperCase())) {
+						carrinho.add(livros.get(position.get(0)));
+					}
+				} else {
+					System.out.println("Encontramos os seguintes livros, escolha o número do livro de sua preferência: ");
+					int escolha = sc.nextInt();
+					carrinho.add(livros.get(position.get(escolha - 1)));
+				}
+			
 				System.out.println("Deseja adicionar um novo livro ao carrinho? digite s ou n");
+				sc = new Scanner(System.in);
 				x = sc.nextLine();
 			} while (x.contains("s"));
 		
@@ -103,5 +121,18 @@ public class menu {
 		
 		registro.printRegistro(quantidade);
 		sc.close();
+	}
+	
+	public static ArrayList<Integer> encontraLivro(Scanner sc, livros obj) {
+		String tittle;
+		System.out.println("Digite o título do livro que deseja comprar: ");
+		tittle = sc.nextLine();
+		ArrayList<Integer> position = obj.ChecksLivro(tittle);
+		
+		if (position.size() == 0) {
+			System.out.println("Livro não encontrado!!");
+			return encontraLivro(sc, obj);
+		}
+		return position;
 	}
 }

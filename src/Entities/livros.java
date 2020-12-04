@@ -73,7 +73,7 @@ public class livros {
 		livros.add(obj);
 		
 		obj = new livros();
-		obj.setTittle("Harry Potter");
+		obj.setTittle("Harry Potter - relíquias da morte");
 		obj.setDescrition("A história gira em torno de um pequeno jovem bruxo, que perdeu os seus pais quando pequeno...");
 		obj.setAuthor("J. K. Rowling");
 		obj.setIsbn("567-2-85-985767-9");
@@ -87,15 +87,23 @@ public class livros {
 		obj.setIsbn("435-9-23-823462-7");
 		obj.setPrice(60.40);
 		livros.add(obj);
+		
+		obj = new livros();
+		obj.setTittle("Harry Potter - ordem da fenix");
+		obj.setDescrition("A história gira em torno de um pequeno jovem bruxo, que perdeu os seus pais quando pequeno...");
+		obj.setAuthor("J. K. Rowling");
+		obj.setIsbn("567-2-85-985767-9");
+		obj.setPrice(80.75);
+		livros.add(obj);
 	}
 	
-	public int ChecksLivro(String tittle) {
+	public ArrayList<Integer> ChecksLivro(String tittle) {
+		ArrayList<Integer> position = new ArrayList<Integer>();
 		int i = 0;
 		while (livros.size() - 1 >= i) {
-			if (livros.get(i).getTittle().contains(tittle)) return i;	
+			if (livros.get(i).getTittle().toUpperCase().contains(tittle.toUpperCase())) position.add(i);	
 			i++;
 		}
-		System.out.println("Livro não encontrado!!");
-		return -1;
+		return position;
 	}
 }
